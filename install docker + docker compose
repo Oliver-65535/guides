@@ -1,0 +1,71 @@
+1. Установка Docker
+Linux (Ubuntu / Debian)
+Обновите систему:
+sudo apt update && sudo apt upgrade -y
+Установите зависимости:
+sudo apt install ca-certificates curl gnupg -y
+Добавьте официальный GPG-ключ:
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+Добавьте репозиторий:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo $VERSION_CODENAME) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+Установите Docker:
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+Проверьте установку:
+docker --version
+macOS / Windows
+Скачайте Docker Desktop с официального сайта:
+https://www.docker.com/products/docker-desktop
+Установите как обычное приложение.
+После установки проверьте:
+docker --version
+2. Настройка (опционально)
+
+Чтобы запускать Docker без sudo (Linux):
+
+sudo usermod -aG docker $USER
+newgrp docker
+3. Установка Docker Compose
+
+В новых версиях Docker Compose уже встроен как плагин.
+
+Проверьте:
+
+docker compose version
+
+Если нужно установить отдельно (редко требуется):
+
+sudo apt install docker-compose-plugin
+4. Пример использования Docker Compose
+
+Создайте файл docker-compose.yml:
+
+version: "3.9"
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+
+Запуск:
+
+docker compose up -d
+
+Проверка:
+
+Откройте браузер: http://localhost:8080
+
+Остановка:
+
+docker compose down
+5. Полезные команды
+docker ps              # список контейнеров
+docker images         # список образов
+docker logs <id>      # логи контейнера
+docker exec -it <id> bash   # войти в контейнер
